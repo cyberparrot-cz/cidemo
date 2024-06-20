@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      SA_PASSWORD: "YourStrong!Passw0rd"
+      ACCEPT_EULA: "Y"
+    volumes:
+      - db_data:/var/opt/mssql
+    ports:
+      - "1433:1433"
+
+  liquibase:
+    image: liquibase/liquibase
+    depends_on:
+      - db
+    environment:
+      LIQUIBASE_COMMAND_CHANGELOG_FILE: /liquibase-data/changelog.xml
+      LIQUIBASE_COMMAND_URL: jdbc:sqlserver://db:1433;databaseName=mydatabase;encrypt=true;trustServerCertificate=true
+      LIQUIBASE_COMMAND_USERNAME: sa
+      LIQUIBASE_COMMAND_PASSWORD: YourStrong!Passw0rd
+      LIQUIBASE_COMMAND_DRIVER: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    volumes:
+      - ./liquibase:/liquibase-data
+    entrypoint: ["sh", "-c", "sleep 30 && liquibase update"] # wait for SQL Server to start
+
+  dotnet-app:
+    image: mcr.microsoft.com/dotnet/sdk:6.0
+    depends_on:
+      - db
+    volumes:
+      - ./dotnet-app:/app
+    working_dir: /app
+    entrypoint: ["sh", "-c", "sleep 40 && dotnet watch run"]
+    ports:
+      - "5000:80"
+
+volumes:
+  db_data:
