@@ -1,6 +1,3 @@
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
-
 public class Program
 {
     public static void Main(string[] args)
@@ -13,5 +10,6 @@ public class Program
             .ConfigureWebHostDefaults(webBuilder =>
             {
                 webBuilder.UseStartup<Startup>();
+                webBuilder.UseUrls("http://0.0.0.0:5000"); // Add this line to listen on all IP addresses
             });
 }

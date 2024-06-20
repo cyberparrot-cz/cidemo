@@ -8,8 +8,7 @@ public class IndexModel : PageModel
 
     public void OnGet()
     {
-        var connectionString = "Server=db;Database=mydatabase;User Id=sa;Password=YourStrong!Passw0rd;";
-
+        var connectionString = "Server=db;Database=mydatabase;User Id=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=True;";
         using (var connection = new SqlConnection(connectionString))
         {
             connection.Open();
