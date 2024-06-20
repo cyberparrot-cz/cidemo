@@ -6,16 +6,37 @@ services:
     environment:
       SA_PASSWORD: "YourStrong!Passw0rd"
       ACCEPT_EULA: "Y"
+      MSSQL_PID=Developer
     volumes:
       - db_data:/var/opt/mssql
-      - ./create-database.sql:/docker-entrypoint-initdb.d/create-database.sql
     ports:
       - "1433:1433"
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P ${Sa_Password:YourStrong!Passw0rd} -Q 'SELECT 1' || exit 1"]
+      interval: 10s
+      retries: 10
+      start_period: 10s
+      timeout: 3s
+  sqlconfigurator:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    volumes:
+      #- ./init:/docker-entrypoint-initdb.d
+      - ./create-database.sql:/docker-entrypoint-initdb.d/create-database.sql
+    depends_on:
+      db:
+        condition: service_healthy
+    command: >
+      bash -c '
+      /opt/mssql-tools/bin/sqlcmd -S sqlserver -U sa -P ${Sa_Password:YourStrong!Passw0rd} -d master -i docker-entrypoint-initdb.d/create-database.sql;
+      echo "All done!";
+      '
 
   liquibase:
     image: liquibase/liquibase
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     environment:
       LIQUIBASE_COMMAND_CHANGELOG_FILE: /liquibase-data/changelog.xml
       LIQUIBASE_COMMAND_URL: jdbc:sqlserver://db:1433;databaseName=mydatabase;encrypt=true;trustServerCertificate=true
@@ -29,11 +50,12 @@ services:
   dotnet-app:
     image: mcr.microsoft.com/dotnet/sdk:6.0
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     volumes:
       - ./dotnet-app:/app
     working_dir: /app
-    entrypoint: ["sh", "-c", "sleep 40 && dotnet watch run"]
+    entrypoint: ["sh", "-c", "sleep 60 && dotnet watch run"]
     ports:
       - "80:5000"
 
