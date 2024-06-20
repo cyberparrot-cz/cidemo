@@ -1893,19 +1893,19 @@
     ]
   },
   "packageFolders": {
-    "/home/azureuser/.nuget/packages/": {}
+    "/root/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/opt/cidemo/dotnet-app/dotnet-app.csproj",
+      "projectUniqueName": "/app/dotnet-app.csproj",
       "projectName": "dotnet-app",
-      "projectPath": "/opt/cidemo/dotnet-app/dotnet-app.csproj",
-      "packagesPath": "/home/azureuser/.nuget/packages/",
-      "outputPath": "/opt/cidemo/dotnet-app/obj/",
+      "projectPath": "/app/dotnet-app.csproj",
+      "packagesPath": "/root/.nuget/packages/",
+      "outputPath": "/app/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/azureuser/.nuget/NuGet/NuGet.Config"
+        "/root/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net7.0"

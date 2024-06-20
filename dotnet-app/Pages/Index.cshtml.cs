@@ -4,12 +4,11 @@ using System.Collections.Generic;
 
 public class IndexModel : PageModel
 {
-    public List<(int id, string name)> TableData { get; private set; }
+    public List<(int id, string name)> TableData { get; private set; } = new List<(int id, string name)>();
 
     public void OnGet()
     {
         var connectionString = "Server=db;Database=mydatabase;User Id=sa;Password=YourStrong!Passw0rd;";
-        TableData = new List<(int id, string name)>();
 
         using (var connection = new SqlConnection(connectionString))
         {
