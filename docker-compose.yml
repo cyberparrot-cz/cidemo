@@ -6,7 +6,7 @@ services:
     environment:
       SA_PASSWORD: "YourStrong!Passw0rd"
       ACCEPT_EULA: "Y"
-      MSSQL_PID=Developer
+      MSSQL_PID: Developer
     volumes:
       - db_data:/var/opt/mssql
     ports:
