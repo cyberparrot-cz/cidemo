@@ -38,13 +38,13 @@ services:
       db:
         condition: service_healthy
     environment:
-      LIQUIBASE_COMMAND_CHANGELOG_FILE: /liquibase-data/changelog.xml
+      LIQUIBASE_COMMAND_CHANGELOG_FILE: /liquibase/changelog.xml
       LIQUIBASE_COMMAND_URL: jdbc:sqlserver://db:1433;databaseName=mydatabase;encrypt=true;trustServerCertificate=true
       LIQUIBASE_COMMAND_USERNAME: sa
       LIQUIBASE_COMMAND_PASSWORD: YourStrong!Passw0rd
       LIQUIBASE_COMMAND_DRIVER: com.microsoft.sqlserver.jdbc.SQLServerDriver
     volumes:
-      - ./liquibase:/liquibase-data
+      - ./liquibase/changelog.xml:/liquibase/changelog.xml
     entrypoint: ["sh", "-c", "sleep 30 && liquibase update"] # wait for SQL Server to start
 
   dotnet-app:
