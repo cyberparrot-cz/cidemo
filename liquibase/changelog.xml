@@ -20,7 +20,7 @@
         </insert>
         <insert tableName="example_table">
             <column name="id" valueNumeric="2"/>
-            <column name="name" value="Josef Vorisek""/>
+            <column name="name" value="Josef Vorisek"/>
         </insert>
     </changeSet>
 </databaseChangeLog>
