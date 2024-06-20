@@ -48,7 +48,7 @@ services:
     entrypoint: ["sh", "-c", "sleep 30 && liquibase update"] # wait for SQL Server to start
 
   dotnet-app:
-    image: mcr.microsoft.com/dotnet/sdk:6.0
+    image: mcr.microsoft.com/dotnet/sdk:7.0
     depends_on:
       db:
         condition: service_healthy
